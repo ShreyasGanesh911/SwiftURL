@@ -5,5 +5,5 @@ fastify.listen({port}, (err,_) => {
     fastify.log.error(err);
     process.exit(1);
   }
-  fastify.log.info(`server listening on ${port}`);
+  console.log(`server listening on ${port}`);
 });
