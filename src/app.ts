@@ -1,6 +1,11 @@
-import Fastify, { FastifyReply, FastifyRequest } from "fastify";
+import Fastify from "fastify";
 
-const fastify = Fastify({ logger: true });
-
+import APIFunction from "./routes/api.route";
+import RateLimiter from "./middleware/rateLimiter";
+const fastify = Fastify();
+fastify.register(APIFunction,{
+    prefix:'/api/v1/data',
+    
+});
 
 export default fastify;
