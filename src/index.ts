@@ -7,7 +7,7 @@ connection().then(()=>{
   console.log("Connected to MongoDB")
   fastify.listen({port:port}, (err,_) => {
     if (err) {
-      fastify.log.error(err);
+      console.log(err);
       process.exit(1);
     }
     console.log(`server listening on ${port}`);
