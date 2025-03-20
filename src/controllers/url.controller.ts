@@ -30,9 +30,9 @@ export const createUrl = async (req:URLInsance,reply:FastifyReply)=>{
     reply.status(201).send({success:true,message:"URL has been created!"})
 }
 
-export const getUrls = async (req:IdInstance,reply:FastifyReply)=>{
-    const {id} = req.query;
-    const urls = await Url.find({userId:id}).select("-userId -__v ");
+export const getUrls = async (req:FastifyRequest,reply:FastifyReply)=>{
+    const userId = req.user?._id
+    const urls = await Url.find({userId}).select("-userId -__v ");
     reply.status(200).send({success:true,message:"URLs fetched",urls})
 }
 
