@@ -1,6 +1,6 @@
 import { FastifyInstance} from "fastify";
-import AsyncHandler from "../utils/Asynhandler";
-import { userLogin, userRegister } from "../controllers/user.controller";
+import AsyncHandler from "../utils/Asynchandler";
+import { userLogin, userRegister,userLogout } from "../controllers/user.controller";
 
 const RegisterSchema = {
     body:{
@@ -26,6 +26,7 @@ const LoginSchema = {
 const UserFunctions = async(fastify:FastifyInstance,options:any)=>{
     fastify.post('/register',{schema:RegisterSchema},AsyncHandler(userRegister))
     fastify.post('/login',{schema:LoginSchema},AsyncHandler(userLogin))
+    fastify.post("/logout",AsyncHandler(userLogout))
 }
 
 export default UserFunctions;
