@@ -1,13 +1,10 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
-
-import AsyncHandler from '../utils/Asynhandler';
+import { FastifyInstance} from 'fastify';
+import AsyncHandler from '../utils/Asynchandler';
 import RateLimiter from '../middleware/rateLimiter';
+import { handleURL } from '../controllers/api.controller';
 
 const APIFunction = async (fastify: FastifyInstance,options:any) => {
-    fastify.get('/',{preHandler:RateLimiter(10,100)} ,AsyncHandler(async (request:FastifyRequest, reply:FastifyReply) => {
-        reply.send({success:true,message:"Some data"});
-    })
-    );
+    fastify.get('/:url',{preHandler:RateLimiter(10,100)} ,AsyncHandler(handleURL));
 }
 
 export default APIFunction;
