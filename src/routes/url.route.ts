@@ -1,6 +1,7 @@
 import { FastifyInstance } from "fastify";
-import AsyncHandler from "../utils/Asynhandler";
+import AsyncHandler from "../utils/Asynchandler";
 import { getUrl, getUrls,createUrl,deleteUrl,updateUrl} from "../controllers/url.controller";
+import AuthMiddleware from "../middleware/auth";
 const URLSchema = {
     body:{
         type: 'object',
@@ -13,11 +14,11 @@ const URLSchema = {
     }
 }
 const URLFunction = async(fastify:FastifyInstance,options:any)=>{
-    fastify.get("/",AsyncHandler(getUrls))
-    fastify.get("/:id",AsyncHandler(getUrl))
-    fastify.post("/",{schema:URLSchema},AsyncHandler(createUrl))
-    fastify.delete("/:id",AsyncHandler(deleteUrl))
-    fastify.put("/:id",AsyncHandler(updateUrl)) // ToDo
+    fastify.get("/",{preHandler:AuthMiddleware},AsyncHandler(getUrls))
+    fastify.get("/:id",{preHandler:AuthMiddleware},AsyncHandler(getUrl))
+    fastify.post("/",{schema:URLSchema,preHandler:AuthMiddleware},AsyncHandler(createUrl))
+    fastify.delete("/:id",{preHandler:AuthMiddleware},AsyncHandler(deleteUrl))
+    fastify.put("/:id",{preHandler:AuthMiddleware},AsyncHandler(updateUrl)) // ToDo
 
 }
 
