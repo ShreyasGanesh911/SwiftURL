@@ -3,12 +3,12 @@
 SwiftURL is a high-performance URL shortening service built with **Node.js, Fastify, Redis, and MongoDB**. It provides fast and reliable URL shortening, analytics tracking, and rate-limiting features.
 
 ## Features
-- **Shorten Long URLs**: Convert long URLs into short, easily shareable links.
-- **Fast Performance**: Uses Redis caching for quick lookups.
-- **Analytics Tracking**: Tracks click counts, last click timestamps, and device types.
-- **Rate Limiting**: Prevents abuse using a Redis-based rate limiter.
-- **User Authentication**: Secure JWT-based authentication.
-- **QR Code Generation**: Generates QR codes for each shortened URL.
+- 🔗 **Shorten Long URLs**: Convert long URLs into short, easily shareable links.
+- 🚀 **Fast Performance**: Uses Redis caching for quick lookups.
+- 📊 **Analytics Tracking**: Tracks click counts, first/last click timestamps, and device types.
+- ⚡ **Rate Limiting**: Prevents abuse using a Redis-based rate limiter.
+- 🔐 **User Authentication**: Secure JWT-based authentication.
+- 📦 **QR Code Generation**: Generates QR codes for each shortened URL.
 
 ## Tech Stack
 - **Backend:** Node.js, Fastify
