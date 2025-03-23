@@ -2,17 +2,8 @@ import { FastifyInstance } from "fastify";
 import AsyncHandler from "../utils/Asynchandler";
 import { getUrl, getUrls,createUrl,deleteUrl,updateUrl} from "../controllers/url.controller";
 import AuthMiddleware from "../middleware/auth";
-const URLSchema = {
-    body:{
-        type: 'object',
-        required: ['longUrl','shortUrl','category'],
-        properties: {
-            longUrl: { type: 'string' },
-            shortUrl: { type: 'string' },
-            category: { type: 'string' },
-        }
-    }
-}
+import { URLSchema } from "../types/url.types";
+
 const URLFunction = async(fastify:FastifyInstance,options:any)=>{
     fastify.get("/",{preHandler:AuthMiddleware},AsyncHandler(getUrls))
     fastify.get("/:id",{preHandler:AuthMiddleware},AsyncHandler(getUrl))
