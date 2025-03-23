@@ -21,13 +21,13 @@ const UrlSchema = new Schema({
         type:String,
         required:true,
     },
+    qr:{
+        type:String
+    },
+    url:String,
     clickCount:{
         type:Number,
         default:0
-    },
-    
-    firstClick:{
-        type:Date,
     },
     lastClick:{
         type:Date,
