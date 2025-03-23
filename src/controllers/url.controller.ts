@@ -1,33 +1,25 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import Url from "../models/url.model";
-interface URLInsance extends FastifyRequest{
-    body:{
-        longUrl:string,
-        shortUrl:string,
-        category:[ "Social", "Business", "News", "Shopping", "Education", 
-            "Entertainment", "Personal", "Work", "Tech", "Other"]
-    }
-}
+import { URLInsance,CloudinaryResponse,IdInstanceParams } from "../types/url.types";
+import generateQR from "../utils/generateQR";
+import uploadToCloudinary from "../utils/cloudinary";
 
-interface IdInstance extends FastifyRequest{
-    query:{
-        id:string
-    }
-}
-interface IdInstanceParams extends FastifyRequest{
-    params:{
-        id:string
-    }
-}
-
+const END_POINT = process.env.END_POINT || "http://localhost:8000" 
 export const createUrl = async (req:URLInsance,reply:FastifyReply)=>{
     const {longUrl,shortUrl,category} = req.body;
-    const userId = "67dab49802d97c0a58df240e"
+    const userId = req.user?._id
     const exist = await Url.findOne({shortUrl});
     if(exist)
         return reply.status(409).send({success:false,message:"Short URL already exists"})
-    await Url.create({userId,longUrl,shortUrl,category})
-    reply.status(201).send({success:true,message:"URL has been created!"})
+    const userURL = `${END_POINT}/${shortUrl}`
+    const qrcode = await generateQR(userURL)
+   if(qrcode === false){
+    console.log("Error in generating QR code")
+    return reply.send({success:false,message:"Error in generating QR code"})
+   }
+   const url:CloudinaryResponse| undefined = await uploadToCloudinary(qrcode as string)
+   await Url.create({userId,longUrl,shortUrl,category,qr:url?.url,url:userURL})
+    reply.status(201).send({success:true,message:"URL has been created!",link:userURL,qr:url?.url})
 }
 
 export const getUrls = async (req:FastifyRequest,reply:FastifyReply)=>{
@@ -47,6 +39,7 @@ export const deleteUrl = async (req:IdInstanceParams,reply:FastifyReply)=>{
 }
 
 export const updateUrl = async (req:FastifyRequest,reply:FastifyReply)=>{
+
     reply.send({success:true,message:"URL updated"})
 }
 
